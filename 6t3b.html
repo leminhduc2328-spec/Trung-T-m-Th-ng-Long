@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Tra Cứu Lớp 6T3B - Trung Tâm Thăng Long</title>
+    <link rel="icon" type="image/png" href="logo-tab.png">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+        }
+
+        /* NỀN XÁM KEM NGỌC DỊU MẮT - KHÔNG TRẮNG TINH */
+        body { 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background-color: #e5ecf4; 
+            padding: 24px; 
+        }
+
+        .container-wrapper { 
+            width: 100%; 
+            max-width: 440px; 
+            text-align: center; 
+        }
+
+        /* KHU VỰC LOGO TRUNG TÂM */
+        .brand-section { 
+            margin-bottom: 25px; 
+        }
+
+        .brand-logo { 
+            width: 100px; 
+            height: 100px; 
+            object-fit: cover; 
+            border-radius: 50%; 
+            background: #e5ecf4; 
+            padding: 6px; 
+            box-shadow: 
+                6px 6px 12px #c2cbd6, 
+                -6px -6px 12px #ffffff;
+        }
+
+        .brand-name { 
+            font-size: 18px; 
+            font-weight: 700; 
+            color: #2c3e50; 
+            margin-top: 15px; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+        }
+
+        /* CARD ĐĂNG NHẬP NỔI KHỐI TẦNG NỀN */
+        .login-card { 
+            background: #e5ecf4; 
+            border-radius: 28px; 
+            padding: 40px 30px; 
+            box-shadow: 
+                9px 9px 18px #c2cbd6, 
+                -9px -9px 18px #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            text-align: left; 
+        }
+
+        .login-title { 
+            font-size: 26px; 
+            font-weight: 800; 
+            color: #1a365d; 
+            margin-bottom: 6px; 
+            text-align: center; 
+            text-transform: uppercase;
+        }
+
+        .login-subtitle { 
+            font-size: 14px; 
+            color: #606f7b; 
+            margin-bottom: 25px; 
+            text-align: center; 
+            font-weight: 600; 
+        }
+
+        .input-group { 
+            margin-bottom: 20px; 
+        }
+
+        .input-group label { 
+            display: block; 
+            font-size: 14px; 
+            font-weight: 700; 
+            color: #4a5568; 
+            margin-bottom: 8px; 
+        }
+
+        /* Ô NHẬP LIỆU CHÌM XUỐNG DƯỚI NỀN */
+        .input-group input { 
+            width: 100%; 
+            padding: 14px 16px; 
+            font-size: 15px; 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            border-radius: 12px; 
+            color: #334155; 
+            outline: none; 
+            background: #e5ecf4; 
+            box-shadow: 
+                inset 4px 4px 6px #c2cbd6, 
+                inset -4px -4px 6px #ffffff;
+            transition: all 0.3s ease; 
+        }
+
+        .input-group input:focus { 
+            border-color: #3182ce; 
+            box-shadow: 
+                inset 2px 2px 4px #c2cbd6, 
+                inset -2px -2px 4px #ffffff,
+                0 0 0 3px rgba(49, 130, 206, 0.2); 
+        }
+
+        /* NÚT ĐĂNG NHẬP NỔI LÊN TRÊN */
+        .btn-submit { 
+            width: 100%; 
+            padding: 15px; 
+            background: #e5ecf4; 
+            color: #1a365d; 
+            border: 1px solid rgba(255, 255, 255, 0.7); 
+            border-radius: 12px; 
+            font-size: 16px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            text-align: center; 
+            box-shadow: 
+                5px 5px 10px #c2cbd6, 
+                -5px -5px 10px #ffffff;
+            transition: all 0.25s ease; 
+        }
+
+        .btn-submit:hover { 
+            color: #2b6cb0;
+            transform: translateY(-2px); 
+            box-shadow: 
+                7px 7px 14px #b8c2cc, 
+                -7px -7px 14px #ffffff;
+        }
+
+        .btn-submit:active {
+            transform: translateY(1px);
+            box-shadow: 
+                inset 4px 4px 8px #c2cbd6, 
+                inset -4px -4px 8px #ffffff;
+        }
+
+        /* KHỐI KẾT QUẢ HIỂN THỊ TẦNG LỚP */
+        .container { 
+            max-width: 480px; 
+            width: 100%; 
+            background: #e5ecf4; 
+            padding: 35px 25px; 
+            border-radius: 28px; 
+            box-shadow: 
+                9px 9px 18px #c2cbd6, 
+                -9px -9px 18px #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            display: none; 
+            text-align: left; 
+            animation: slideUp 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-title { 
+            color: #1a365d; 
+            text-align: center; 
+            margin-bottom: 25px; 
+            font-size: 21px; 
+            text-transform: uppercase; 
+            font-weight: 800; 
+            letter-spacing: 0.5px;
+        }
+
+        /* KHỐI THÔNG TIN HỌC SINH (HỘP CHÌM ĐỘC ĐÁO) */
+        .student-info { 
+            background: #e5ecf4; 
+            padding: 20px; 
+            border-radius: 16px; 
+            margin-bottom: 25px; 
+            box-shadow: 
+                inset 4px 4px 8px #c2cbd6, 
+                inset -4px -4px 8px #ffffff;
+        }
+
+        .info-item { 
+            font-size: 15px; 
+            margin-bottom: 10px; 
+            color: #4a5568;
+            font-weight: 500;
+        }
+        .info-item:last-child { margin-bottom: 0; }
+
+        .info-item strong { 
+            color: #1a365d; 
+            font-weight: 700;
+        }
+
+        /* KHỐI NHẬN XÉT CỦA GIÁO VIÊN (TẦNG NỔI TRÊN KHỐI CHÌM) */
+        .comment-section { 
+            background: #e5ecf4; 
+            border-left: 5px solid #3182ce; 
+            padding: 18px; 
+            margin-bottom: 20px; 
+            border-radius: 4px 16px 16px 4px; 
+            box-shadow: 
+                5px 5px 12px #c2cbd6, 
+                -5px -5px 12px #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .comment-title { 
+            font-weight: 700; 
+            color: #1a365d; 
+            margin-bottom: 6px; 
+            text-transform: uppercase; 
+            font-size: 13px; 
+            letter-spacing: 0.5px;
+        }
+
+        .comment-section p {
+            font-size: 14.5px;
+            color: #4a5568;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .back-btn { 
+            display: inline-flex; 
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px; 
+            color: #e53e3e; 
+            background: rgba(229, 62, 62, 0.05);
+            padding: 10px 24px;
+            border-radius: 12px;
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 14px;
+            transition: all 0.2s;
+            box-shadow: 
+                3px 3px 6px #c2cbd6, 
+                -3px -3px 6px #ffffff;
+        }
+        .back-btn:hover {
+            background: rgba(229, 62, 62, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 
+                4px 4px 8px #b8c2cc, 
+                -4px -4px 8px #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-wrapper" class="container-wrapper">
+        <div class="brand-section">
+            <img src="logo-tab.png" alt="Logo Trung Tâm Thăng Long" class="brand-logo">
+            <div class="brand-name">TRUNG TÂM THĂNG LONG</div>
+        </div>
+        <div class="login-card">
+            <h2 class="login-title">Hệ Thống Tra Cứu</h2>
+            <p class="login-subtitle">Mã lớp học: 6T3B</p>
+            <div class="input-group">
+                <label>Tên đăng nhập:</label>
+                <input type="text" id="username" placeholder="Nhập đầy đủ họ tên học sinh">
+            </div>
+            <div class="input-group">
+                <label>Mật khẩu:</label>
+                <input type="password" id="password" placeholder="Nhập mật khẩu">
+            </div>
+            <button class="btn-submit" onclick="checkLogin()">Đăng nhập hệ thống</button>
+            <p id="error" style="color: #e53e3e; font-size: 14px; margin-top: 15px; text-align: center; display: none; font-weight: 700;">Tên học sinh hoặc mật khẩu không chính xác!</p>
+            <center><a href="khoi6.html" style="display:inline-block; margin-top:25px; color:#606f7b; text-decoration:none; font-size:14px; font-weight:600;">⬅ Quay lại chọn lớp</a></center>
+        </div>
+    </div>
+
+    <div id="content-area" class="container">
+        <h1 class="header-title">Kết Quả Học Tập Lớp 6T3B</h1>
+        <div class="student-info">
+            <div class="info-item"><strong>Họ và tên học sinh:</strong> <span id="s-name" style="color: #2b6cb0; font-weight: bold;"></span></div>
+            <div class="info-item"><strong>Lớp học tại trung tâm:</strong> Lớp Toán 6T3B</div>
+            <div class="info-item"><strong>Tháng nhận xét:</strong> Tháng 06/2026</div>
+            <div class="info-item"><strong>Điểm trung bình tháng:</strong> <span id="s-score" style="color:#38a169; font-weight:bold;"></span></div>
+        </div>
+        <div class="comment-section">
+            <div class="comment-title">Nhận xét chi tiết của giáo viên:</div>
+            <p id="s-nx"></p>
+        </div>
+        <div class="comment-section" style="border-left-color: #38a169;">
+            <div class="comment-title">Lời khuyên / Định hướng của thầy cô:</div>
+            <p id="s-kh"></p>
+        </div>
+        <center><a href="javascript:location.reload();" class="back-btn">❌ Thoát xem nhận xét</a></center>
+    </div>
+
+    <script>
+        const students = {
+            "nguyen minh triet": { name: "Nguyễn Minh Triết", điểm: "9.0/10", nx: "Em Triết học tập rất tập trung, tư duy hình học trực quan tốt, hăng hái phát biểu xây dựng bài.", kh: "Nên rèn luyện thêm cách trình bày tự luận cẩn thận để tránh mất điểm nhỏ." },
+            "tran dang khoa": { name: "Trần Đăng Khoa", điểm: "8.5/10", nx: "Tiếp thu bài nhanh, làm bài tập về nhà đầy đủ. Tuy nhiên trong giờ đôi lúc còn nói chuyện riêng.", kh: "Cần tập trung nghe giảng đồng đều hơn ở tất cả các phần kiến thức." },
+            "le hoai an": { name: "Lê Hoài An", điểm: "7.0/10", nx: "Có cố gắng nhưng kiến thức nền tảng toán cấp 1 còn hơi yếu, kỹ năng tính toán còn chậm.", kh: "Phụ huynh nên nhắc nhở con làm thêm các bài tập bổ trợ tính toán tại nhà." },
+            "pham thuy vi": { name: "Phạm Thúy Vi", điểm: "9.5/10", nx: "Học sinh xuất sắc, làm bài cẩn thận, chỉn chu, luôn hoàn thành bài tập trước thời hạn.", kh: "Tiếp tục phát huy phong độ học tập tuyệt vời này." },
+            "hoang minh quan": { name: "Hoàng Minh Quân", điểm: "8.0/10", nx: "Thông minh nhưng tính cách còn hơi vội vàng, hay làm sai các câu tính toán cơ bản.", kh: "Cần đọc kỹ đề bài và rà soát kết quả trước khi nộp bài." },
+            "vu hai nam": { name: "Vũ Hải Nam", điểm: "6.5/10", nx: "Còn lười làm bài tập về nhà, ý thức học tập trong lớp chưa cao, hay nói chuyện cắt ngang lời thầy cô.", kh: "Trung tâm cần sự phối hợp sát sao từ gia đình để đôn đốc việc tự học của em." },
+            "do gia han": { name: "Đỗ Gia Hân", điểm: "8.8/10", nx: "Học lực khá, tính toán chắc chắn, có tinh thần tương trợ giúp đỡ bạn bè cùng tiến bộ.", kh: "Khuyến khích con thử sức chủ động với các bài toán hình học nâng cao." },
+            "bui vinh phat": { name: "Bùi Vĩnh Phát", điểm: "7.5/10", nx: "Có sự tiến bộ rõ rệt so với đầu tháng, đã chịu khó làm bài tập và tích cực hỏi bài thầy cô.", kh: "Duy trì tinh thần chịu khó này em sẽ tiến xa hơn." },
+            "ngo my linh": { name: "Ngô Mỹ Linh", điểm: "9.2/10", nx: "Ý thức học tập tuyệt vời, trình bày bài sạch đẹp khoa học, tiếp thu bài nhanh.", kh: "Định hướng cho em tiếp cận sớm với các dạng đề thi học sinh giỏi." },
+            "dang gia bao": { name: "Đặng Gia Bảo", điểm: "8.2/10", nx: "Hiểu bài tốt tại lớp nhưng về nhà hay quên kiến thức do chưa tự giác ôn tập lại thường xuyên.", kh: "Cần dành 15-20 phút đọc lại lý thuyết cũ mỗi tối trước khi làm bài tập." }
+        };
+
+        function locDau(str) {
+            str = str.toLowerCase().trim();
+            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
+            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
+            str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i");
+            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");
+            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
+            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
+            str = str.replace(/đ/g,"d");
+            str = str.replace(/\s+/g, ' ');
+            return str;
+        }
+
+        function checkLogin() {
+            const uInput = document.getElementById('username').value;
+            const pInput = document.getElementById('password').value;
+            const uKey = locDau(uInput);
+            if (pInput === '123' && students[uKey]) {
+                confetti({ particleCount: 125, spread: 80, origin: { y: 0.6 } }); 
+                const s = students[uKey];
+                
+                document.getElementById('login-wrapper').style.setProperty('display', 'none', 'important');
+                document.getElementById('content-area').style.display = 'block';
+                
+                // Giữ nguyên nền xám kem dịu mát khi chuyển trang thành công
+                document.body.style.background = "#e5ecf4"; 
+                
+                document.getElementById('s-name').innerText = s.name;
+                document.getElementById('s-score').innerText = s.điểm;
+                document.getElementById('s-nx').innerText = s.nx;
+                document.getElementById('s-kh').innerText = s.kh;
+                document.getElementById('error').style.display = 'none';
+            } else { 
+                document.getElementById('error').style.display = 'block'; 
+            }
+        }
+    </script>
+</body>
+</html>

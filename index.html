@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trung Tâm Thăng Long - Nhận Xét Học Sinh</title>
+    
+    <link rel="icon" type="image/png" href="logo-tab.png">
+    
+    <style>
+        /* RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER BANNER XANH DƯƠNG CHỦ ĐẠO */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 50px 20px 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 50%;
+            background-color: white;
+            padding: 6px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .welcome-text {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        /* MAIN CONTENT */
+        main {
+            max-width: 1200px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .section-title-wrapper {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #1e3a8a;
+            font-weight: 700;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 12px;
+        }
+
+        /* Thanh gạch chân màu đỏ thương hiệu */
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 4px;
+            background-color: #dc2626;
+            border-radius: 2px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        /* HIỆU ỨNG TẦNG TRƯỢT XUẤT HIỆN KHI LOAD TRANG */
+        .class-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            opacity: 0;
+            transform: translateY(25px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .class-card-link.layer-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* CARD NỀN TRẮNG PHẲNG GỌN GÀNG */
+        .class-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            padding-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        /* HIỆU ỨNG NỔI KHỐI KHI DI CHUỘT VÀO CARD */
+        .class-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(30, 58, 138, 0.15);
+            border-color: #3b82f6;
+        }
+
+        /* MÀU NỀN XANH DƯƠNG NHẠT BAN ĐẦU CỦA HEADER CARD */
+        .card-header {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            color: #1e3a8a;
+            padding: 22px 15px;
+            font-size: 22px;
+            font-weight: 700;
+            border-bottom: 1px solid #cbd5e1;
+            margin-bottom: 30px; /* Tăng khoảng cách do đã xóa note */
+            transition: all 0.3s ease;
+        }
+
+        /* KHI KÉO CHUỘT TỚI (HOVER): Đổi sang màu XANH DƯƠNG đậm, chữ Khối đổi màu TRẮNG */
+        .class-card:hover .card-header {
+            background: #1e3a8a;
+            color: #ffffff;
+            border-bottom-color: transparent;
+        }
+
+        .btn-detail-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* NÚT DANH SÁCH CÁC LỚP BAN ĐẦU */
+        .btn-detail {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: white;
+            padding: 11px 28px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14.5px;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.25);
+            transition: all 0.25s ease;
+        }
+
+        /* KHI KÉO CHUỘT TỚI (HOVER): Ánh lên màu XANH DƯƠNG ĐẬM theo ý bạn */
+        .class-card:hover .btn-detail {
+            background-color: #1e3a8a;
+            box-shadow: 0 6px 14px rgba(30, 58, 138, 0.3);
+            transform: scale(1.02);
+        }
+
+        /* HIỆU ỨNG KHI CHUỘT ẤN VÔ (ACTIVE) */
+        .class-card-link:active .class-card {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(30, 58, 138, 0.1);
+        }
+        
+        .class-card-link:active .btn-detail {
+            transform: scale(0.96);
+            opacity: 0.9;
+        }
+
+        /* FOOTER CHÂN TRANG */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 60px;
+            border-top: 1px solid #e2e8f0;
+            background-color: #ffffff;
+        }
+
+        @media (max-width: 600px) {
+            .welcome-text { font-size: 18px; }
+            .logo { width: 95px; height: 95px; }
+            .section-title { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- KHU VỰC HEADER BANNER -->
+    <header>
+        <div class="logo-container">
+            <img src="logo-tab.png" alt="Logo Trung Tâm Thăng Long" class="brand-logo logo">
+        </div>
+        <h1 class="welcome-text">TRUNG TÂM THĂNG LONG KÍNH CHÀO QUÝ PHỤ HUYNH</h1>
+    </header>
+
+    <!-- KHU VỰC NỘI DUNG CHƯƠNG TRÌNH ĐÀO TẠO -->
+    <main>
+        <div class="section-title-wrapper">
+            <h2 class="section-title">Chương Trình Đào Tạo</h2>
+        </div>
+        
+        <div class="grid-container">
+            
+            <!-- KHỐI 6 -->
+            <a href="khoi6.html" target="_blank" class="class-card-link">
+                <div class="class-card">
+                    <div class="card-header">Khối 6</div>
+                    <div class="btn-detail-wrapper">
+                        <span class="btn-detail">Danh sách các lớp</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- KHỐI 7 -->
+            <a href="khoi7.html" target="_blank" class="class-card-link">
+                <div class="class-card">
+                    <div class="card-header">Khối 7</div>
+                    <div class="btn-detail-wrapper">
+                        <span class="btn-detail">Danh sách các lớp</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- KHỐI 8 -->
+            <a href="khoi8.html" target="_blank" class="class-card-link">
+                <div class="class-card">
+                    <div class="card-header">Khối 8</div>
+                    <div class="btn-detail-wrapper">
+                        <span class="btn-detail">Danh sách các lớp</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- KHỐI 9 -->
+            <a href="khoi9.html" target="_blank" class="class-card-link">
+                <div class="class-card">
+                    <div class="card-header">Khối 9</div>
+                    <div class="btn-detail-wrapper">
+                        <span class="btn-detail">Danh sách các lớp</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- CHÂN TRANG -->
+    <footer>
+        <p>&copy; 2026 Trung Tâm Giáo Dục Thăng Long. All rights reserved.</p>
+    </footer>
+
+    <!-- SCRIPT HIỆU ỨNG TẦNG TẦNG XUẤT HIỆN -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll('.class-card-link');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('layer-visible');
+                }, index * 100);
+            });
+        });
+    </script>
+
+</body>
+</html>
