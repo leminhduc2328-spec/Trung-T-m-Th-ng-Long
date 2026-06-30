@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trung Tâm Thăng Long</title>
+    
+    <link rel="icon" type="image/png" href="logo-tab.png">
+    
+    <style>
+        /* RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* HEADER & HERO SECTION */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
+        /* Cấu hình hiển thị logo trung tâm ở giữa header */
+        .logo {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            background-color: white;
+            padding: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .welcome-text {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* MAIN CONTENT & CARDS */
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title-wrapper {
+            text-align: center;
+            margin-bottom: 40px; /* Tăng khoảng cách dưới */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #1e3a8a;
+            position: relative;
+            padding-bottom: 15px; /* Thêm khoảng cách dưới cho text tiêu đề */
+            display: inline-block; /* Để đường gạch chân chỉ rộng bằng text */
+        }
+
+        /* TẠO ĐƯỜNG GẠCH CHÂN CHUẨN: Màu xanh, cách xa, không mờ */
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: #3b82f6; /* Màu xanh chuẩn của nút */
+            border-radius: 2px;
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .class-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .class-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #3b82f6;
+        }
+
+        .card-header {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            padding: 20px;
+            font-size: 22px;
+            font-weight: 600;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        /* TEXT MÔ TẢ TRONG CARD: Sửa lỗi text Khối 9 nhảy lung tung */
+        .card-body p {
+            color: #64748b;
+            margin-bottom: 20px;
+            font-size: 15px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-detail-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: auto; /* Đẩy nút xuống đáy của thẻ */
+        }
+
+        .btn-detail {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .btn-detail:hover {
+            background-color: #2563eb;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 60px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 600px) {
+            .welcome-text {
+                font-size: 18px;
+            }
+            .logo {
+                width: 100px;
+                height: 100px;
+            }
+            .section-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo-tab.png" alt="Logo Trung Tâm Thăng Long" class="logo">
+        </div>
+        <h1 class="welcome-text">TRUNG TÂM THĂNG LONG KÍNH CHÀO QUÝ PHỤ HUYNH</h1>
+    </header>
+
+    <main>
+        <div class="section-title-wrapper">
+            <h2 class="section-title">Chương Trình Đào Tạo</h2>
+        </div>
+        
+        <div class="grid-container">
+            <div class="class-card">
+                <div class="card-header">Khối 6</div>
+                <div class="card-body">
+                    <p>Bồi dưỡng kiến thức nền tảng và phương pháp học tập mới cho học sinh đầu cấp Trung học cơ sở.</p>
+                    <div class="btn-detail-wrapper">
+                        <a href="#" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="card-header">Khối 7</div>
+                <div class="card-body">
+                    <p>Nâng cao tư duy, bám sát chương trình cải cách và phát triển kỹ năng giải quyết bài toán phức tạp.</p>
+                    <div class="btn-detail-wrapper">
+                        <a href="#" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="card-header">Khối 8</div>
+                <div class="card-body">
+                    <p>Tăng tốc kiến thức trọng tâm, chuẩn bị bệ phóng vững chắc cho các kỳ thi quan trọng phía trước.</p>
+                    <div class="btn-detail-wrapper">
+                        <a href="#" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="card-header">Khối 9</div>
+                <div class="card-body">
+                    <p>Luyện thi vào lớp 10 chất lượng cao, hệ thống kiến thức toàn diện và rèn luyện kỹ năng phòng thi.</p>
+                    <div class="btn-detail-wrapper">
+                        <a href="#" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Trung Tâm Giáo Dục Thăng Long. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
